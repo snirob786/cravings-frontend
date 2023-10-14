@@ -1,5 +1,17 @@
-.headerConatiner{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.headerConatiner {
+    padding: 0;
+    background-color: #fff;
+}
+
+.headerContentWrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.headerTitleColor {
+    margin: 0 !important;
+}
+
+.menuContainer {
+    justify-content: flex-end;
 }
