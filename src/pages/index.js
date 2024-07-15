@@ -5,11 +5,13 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
-import MaindHeader from "@/components/mainHeader";
-import MapContainer from "@/components/map/mapContainer";
+import MainHeader from "@/components/mainHeader";
+import PublicLayout from "@/components/layouts/publicLayout";
+import { useSelector } from "react-redux";
 const { Sider } = Layout;
 
 export default function index() {
+  const user = useSelector((state) => state.auth);
   return (
     <>
       {/* <Sider
@@ -37,8 +39,9 @@ export default function index() {
                 />
             </Sider> */}
       <Layout>
-        <MaindHeader />
-        <MapContainer />
+        <PublicLayout>
+          <MainHeader />
+        </PublicLayout>
       </Layout>
     </>
   );
