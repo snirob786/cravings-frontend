@@ -30,13 +30,18 @@ const Login = () => {
     if (userData?.data?.data?.user?.role === "superAdmin") {
       userInfo = await axios({
         method: "GET",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins?user=${userData?.data?.data?.user?._id}`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/user=${userData?.data?.data?.user?.superAdmin}`,
+      });
+    } else if (userData?.data?.data?.user?.role === "admin") {
+      userInfo = await axios({
+        method: "GET",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${userData?.data?.data?.user?.admin}`,
       });
     }
-    console.log("🚀 ~ handleLogin ~ userInfo:", userInfo?.data?.data);
+    console.log("🚀 ~ handleLogin ~ userInfo:", userInfo);
     let newUserInfo = {
       userData: userData?.data?.data,
-      userDetails: userInfo?.data?.data[0],
+      userDetails: userInfo?.data?.data,
     };
     dispatch(setUser(newUserInfo));
     router.push("/");

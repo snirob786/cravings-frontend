@@ -20,64 +20,43 @@ const { Title } = Typography;
 const { Link } = Anchor;
 import logo from "@/assets/logo.jpg";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { logout } from "@/redux/features/authSlice";
 export default function MainHeader() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.auth);
   const items = [
     {
-      label: "Navigation One",
-      key: "mail",
-      icon: <MailOutlined />,
-    },
-    {
-      label: "Navigation Two",
-      key: "app",
-      icon: <AppstoreOutlined />,
-    },
-    {
-      label: "Navigation Three - Submenu",
-      key: "SubMenu",
-      icon: <SettingOutlined />,
+      label: (
+        <Avatar
+          style={{ backgroundColor: "#f56a00", verticalAlign: "middle" }}
+          size="large"
+          gap={4}
+        >
+          {user?.userDetails?.name?.firstName?.slice(0, 1)}
+        </Avatar>
+      ),
+      key: "User",
+
       children: [
         {
-          type: "group",
-          label: "Item 1",
-          children: [
-            {
-              label: "Option 1",
-              key: "setting:1",
-            },
-            {
-              label: "Option 2",
-              key: "setting:2",
-            },
-          ],
-        },
-        {
-          type: "group",
-          label: "Item 2",
-          children: [
-            {
-              label: "Option 3",
-              key: "setting:3",
-            },
-            {
-              label: "Option 4",
-              key: "setting:4",
-            },
-          ],
+          label: "Logout",
+          key: "logout",
         },
       ],
     },
-    {
-      label: (
-        <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-          Navigation Four - Link
-        </a>
-      ),
-      key: "alipay",
-    },
   ];
+
+  const onClick = (e) => {
+    console.log("click ", e);
+    if (e.key === "logout") {
+      dispatch(logout());
+    } else {
+      router.push(e.key);
+    }
+  };
   return (
     <Header className={styles.headerBgLight}>
       <Row justify="space-between" align="middle">
@@ -104,15 +83,7 @@ export default function MainHeader() {
                 </Button>
               </>
             )}
-            {user && (
-              <Avatar
-                style={{ backgroundColor: "#f56a00", verticalAlign: "middle" }}
-                size="large"
-                gap={4}
-              >
-                {user?.userDetails?.name?.firstName?.slice(0, 1)}
-              </Avatar>
-            )}
+            {user && <Menu onClick={onClick} mode="horizontal" items={items} />}
           </Flex>
         </Col>
       </Row>
