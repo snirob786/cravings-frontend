@@ -16,35 +16,40 @@ const Login = () => {
 
   const handleLogin = async () => {
     // TODO: Implement login logic
-    const userData = await axios({
-      method: "POST",
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-      data: { username, password },
-    });
-    console.log("🚀 ~ handleLogin ~ userData:", userData?.data?.data?.user);
-    console.log(
-      "🚀 ~ handleLogin ~ `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins?user=${userData?.data?.data?.user?._id}`:",
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins?user=${userData?.data?.data?.user?._id}`
-    );
-    let userInfo = null;
-    if (userData?.data?.data?.user?.role === "superAdmin") {
-      userInfo = await axios({
-        method: "GET",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/user=${userData?.data?.data?.user?.superAdmin}`,
+    try {
+      const userData = await axios({
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+        data: { username, password },
       });
-    } else if (userData?.data?.data?.user?.role === "admin") {
-      userInfo = await axios({
-        method: "GET",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${userData?.data?.data?.user?.admin}`,
-      });
+
+      let userInfo = null;
+      if (userData?.data?.data?.user?.role === "superAdmin") {
+        userInfo = await axios({
+          method: "GET",
+          headers: {
+            Authorization: userData?.data?.data?.token,
+          },
+        });
+      } else if (userData?.data?.data?.user?.role === "admin") {
+        userInfo = await axios({
+          method: "GET",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${userData?.data?.data?.user?.admin}`,
+          headers: {
+            Authorization: userData?.data?.data?.token,
+          },
+        });
+      }
+      console.log("🚀 ~ handleLogin ~ userInfo:", userInfo);
+      let newUserInfo = {
+        userData: userData?.data?.data,
+        userDetails: userInfo?.data?.data,
+      };
+      dispatch(setUser(newUserInfo));
+      router.push("/");
+    } catch (error) {
+      console.error("Login error: ", error);
     }
-    console.log("🚀 ~ handleLogin ~ userInfo:", userInfo);
-    let newUserInfo = {
-      userData: userData?.data?.data,
-      userDetails: userInfo?.data?.data,
-    };
-    dispatch(setUser(newUserInfo));
-    router.push("/");
   };
 
   return (

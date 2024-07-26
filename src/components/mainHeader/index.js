@@ -42,6 +42,10 @@ export default function MainHeader() {
 
       children: [
         {
+          label: "Dashboard",
+          key: "dashboard",
+        },
+        {
           label: "Logout",
           key: "logout",
         },
