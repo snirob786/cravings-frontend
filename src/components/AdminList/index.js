@@ -1,19 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { SuperAdminDashboardLayout } from "../superAdminDashboardLayout/superAdminDashboardLayout";
 import { SuperAdminSidebar } from "../superAdminSibebar/superAdminSidebar";
-import { Table } from "antd";
+import { Button, Table, Tabs } from "antd";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+// import { BsThreeDotsVertical } from "react-icons/bs";
+const operations = (
+  <Button>
+    <FontAwesomeIcon icon={faEllipsisVertical} />
+  </Button>
+);
 
 const columns = [
   {
+    title: "ID",
+    dataIndex: "id",
+    width: "15%",
+  },
+  {
     title: "Name",
-    dataIndex: "name",
+    dataIndex: "fullName",
     sorter: true,
-    render: (name) => `${name.first} ${name.last}`,
+    // render: (name) => `${name.first} ${name.last}`,
+    // value: "fullName",
     width: "20%",
   },
   {
     title: "Gender",
     dataIndex: "gender",
+    render: (gender) => <p className="capitalize">{gender}</p>,
     filters: [
       {
         text: "Male",
@@ -30,6 +47,24 @@ const columns = [
     title: "Email",
     dataIndex: "email",
   },
+  {
+    title: "Mobile",
+    dataIndex: "contactNo",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    render: (status) => (
+      <p
+        className={`capitalize ${
+          status === "active" ? "text-green-500" : "text-red-500"
+        }`}
+      >
+        {status}
+      </p>
+    ),
+    width: "20%",
+  },
 ];
 
 const getRandomuserParams = (params) => ({
@@ -39,8 +74,10 @@ const getRandomuserParams = (params) => ({
 });
 
 export const AdminList = () => {
+  const userData = useSelector((state) => state.auth.auth.userData);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -49,23 +86,22 @@ export const AdminList = () => {
   });
   const fetchData = () => {
     setLoading(true);
-    fetch(
-      `https://randomuser.me/api?results=${
-        tableParams.pagination.pageSize
-      }&page=${tableParams.pagination.current}${
-        tableParams?.filters?.gender &&
-        "&gender=" + tableParams?.filters?.gender[0]
-      }`
-    )
-      .then((res) => res.json())
-      .then(({ results }) => {
-        setData(results);
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admins`, {
+        headers: {
+          Authorization: userData.token,
+        },
+      })
+      .then((res) => {
+        console.log("res: ", res);
+        console.log("res?.data?.data: ", res?.data?.data);
+        setData(res?.data?.data?.result);
         setLoading(false);
         setTableParams({
           ...tableParams,
           pagination: {
             ...tableParams.pagination,
-            total: 200,
+            total: res?.data?.data?.total,
             // 200 is mock data, you should read it from server
             // total: data.totalCount,
           },
@@ -94,16 +130,61 @@ export const AdminList = () => {
       setData([]);
     }
   };
+
+  const onSelectChange = (newSelectedRowKeys) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const items = [
+    {
+      label: "Admin List",
+      key: "adminList",
+      children: (
+        <>
+          <Button
+            type="primary"
+            className="mb-3 bg-[#255b65]"
+            // onClick={start}
+            // disabled={!hasSelected}
+            // loading={loading}
+          >
+            Reload
+          </Button>
+          <Table
+            columns={columns}
+            rowKey={(record) => record.id}
+            dataSource={data}
+            pagination={tableParams.pagination}
+            loading={loading}
+            onChange={handleTableChange}
+            rowSelection={rowSelection}
+            scroll={{
+              x: 1500,
+            }}
+          />
+        </>
+      ),
+    },
+    {
+      label: "Moderator List",
+      key: "moderatorList",
+      children: <p>Test moderator</p>,
+    },
+    {
+      label: "Delivery Man List",
+      key: "deliveryManList",
+      children: <p>Test Delivery Man</p>,
+    },
+  ];
+
   return (
     <SuperAdminDashboardLayout sidebar={<SuperAdminSidebar />}>
-      <Table
-        columns={columns}
-        rowKey={(record) => record.login.uuid}
-        dataSource={data}
-        pagination={tableParams.pagination}
-        loading={loading}
-        onChange={handleTableChange}
-      />
+      <Tabs tabBarExtraContent={operations} items={items} />
     </SuperAdminDashboardLayout>
   );
 };

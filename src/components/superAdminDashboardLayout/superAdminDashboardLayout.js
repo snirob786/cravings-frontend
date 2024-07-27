@@ -71,7 +71,7 @@ export const SuperAdminDashboardLayout = ({ sidebar, children }) => {
               marginLeft: 200,
             }}
           >
-            {children}
+            <div className="mx-6">{children}</div>
             <DashboardFooter />
           </Layout>
         </Layout>
