@@ -9,6 +9,7 @@ import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
 import { SuperAdminDashboard } from "@/components/superAdminDashboard";
 import { AdminList } from "@/components/AdminList";
+import { UserList } from "@/components/UserList";
 
 const Test = () => {
   const userData = useSelector((state) => state.auth.auth.userData);
@@ -21,7 +22,7 @@ const Test = () => {
 
   return (
     <>
-      <AdminList />
+      <UserList />
     </>
   );
 };

@@ -24,7 +24,7 @@ const getRandomuserParams = (params) => ({
   ...params,
 });
 
-export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
+export const ModeratorList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const userData = useSelector((state) => state.auth.auth.userData);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admins`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/moderators`, {
         headers: {
           Authorization: userData.token,
         },

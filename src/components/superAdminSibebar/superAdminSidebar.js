@@ -16,8 +16,8 @@ export const SuperAdminSidebar = () => {
       key: "/dashboard",
     },
     {
-      label: "Admin List",
-      key: "/dashboard/admin-list",
+      label: "User List",
+      key: "/dashboard/user-list",
     },
   ];
 
