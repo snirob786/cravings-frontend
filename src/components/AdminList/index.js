@@ -25,7 +25,7 @@ const getRandomuserParams = (params) => ({
 });
 
 export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
-  const userData = useSelector((state) => state.auth.auth.userData);
+  const user = useSelector((state) => state?.auth?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
@@ -51,7 +51,7 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admins`, {
         headers: {
-          Authorization: userData.token,
+          Authorization: user?.userData?.token,
         },
         params: {
           searchTerm: searchTerm,

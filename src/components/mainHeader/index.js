@@ -57,6 +57,7 @@ export default function MainHeader() {
     console.log("click ", e);
     if (e.key === "logout") {
       dispatch(logout());
+      router.push("/login");
     } else {
       router.push(e.key);
     }

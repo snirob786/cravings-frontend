@@ -9,14 +9,15 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { AdminList } from "../AdminList";
 import { ModeratorList } from "../ModeratorList";
+import { DeliveryManList } from "../DeliveryManList";
 const operations = (
   <Button>
     <FontAwesomeIcon icon={faEllipsisVertical} />
   </Button>
 );
 
-export const UserList = () => {
-  const userData = useSelector((state) => state.auth.auth.userData);
+export const UserListChild = () => {
+  const user = useSelector((state) => state?.auth?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -55,7 +56,12 @@ export const UserList = () => {
     {
       label: "Delivery Man List",
       key: "deliveryManList",
-      children: <p>Test Delivery Man</p>,
+      children: (
+        <DeliveryManList
+          selectedRowKeys={selectedRowKeys}
+          setSelectedRowKeys={setSelectedRowKeys}
+        />
+      ),
     },
   ];
 

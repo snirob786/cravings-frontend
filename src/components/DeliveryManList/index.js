@@ -24,7 +24,7 @@ const getRandomuserParams = (params) => ({
   ...params,
 });
 
-export const ModeratorList = ({ selectedRowKeys, setSelectedRowKeys }) => {
+export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const user = useSelector((state) => state?.auth?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ export const ModeratorList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/moderators`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/delivery-mans`, {
         headers: {
           Authorization: user?.userData?.token,
         },

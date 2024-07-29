@@ -1,5 +1,5 @@
 import { Button, Flex, Input } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginImage from "@/assets/login.png";
 import Image from "next/image";
 import { UserOutlined } from "@ant-design/icons";
@@ -10,13 +10,20 @@ import { useRouter } from "next/router";
 import { SuperAdminDashboard } from "@/components/superAdminDashboard";
 
 const Dashboard = () => {
-  const userData = useSelector((state) => state.auth.auth.userData);
-  const userDetails = useSelector((state) => state.auth.auth.userDetails);
+  const user = useSelector((state) => state?.auth?.auth);
   const dispatch = useDispatch();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user]);
+
   return (
-    <>{userData?.user?.role === "superAdmin" && <SuperAdminDashboard />}</>
+    <>
+      {user?.userData?.user?.role === "superAdmin" && <SuperAdminDashboard />}
+    </>
   );
 };
 

@@ -13,8 +13,10 @@ const Login = () => {
   const router = useRouter();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
+    setIsLoading(true);
     // TODO: Implement login logic
     try {
       const userData = await axios({
@@ -22,15 +24,19 @@ const Login = () => {
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
         data: { username, password },
       });
+      console.log("userData: ", userData);
 
       let userInfo = null;
       if (userData?.data?.data?.user?.role === "superAdmin") {
+        console.log("userData: ", userData?.data?.data?.token);
         userInfo = await axios({
           method: "GET",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/${userData?.data?.data?.user?.superAdmin}`,
           headers: {
             Authorization: userData?.data?.data?.token,
           },
         });
+        console.log("userInfo: ", userInfo);
       } else if (userData?.data?.data?.user?.role === "admin") {
         userInfo = await axios({
           method: "GET",
@@ -46,9 +52,10 @@ const Login = () => {
         userDetails: userInfo?.data?.data,
       };
       dispatch(setUser(newUserInfo));
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Login error: ", error);
+      setIsLoading(false);
     }
   };
 
@@ -79,6 +86,8 @@ const Login = () => {
               type="primary"
               icon={<UserOutlined />}
               onClick={handleLogin}
+              loading={isLoading}
+              disabled={!username || !password || isLoading}
             >
               Login
             </Button>

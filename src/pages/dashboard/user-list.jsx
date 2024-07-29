@@ -9,22 +9,21 @@ import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
 import { SuperAdminDashboard } from "@/components/superAdminDashboard";
 import { AdminList } from "@/components/AdminList";
-import { UserList } from "@/components/UserList";
+import { UserListChild } from "@/components/UserList";
 
-const Test = () => {
-  const userData = useSelector((state) => state.auth.auth.userData);
-  const userDetails = useSelector((state) => state.auth.auth.userDetails);
+const UserList = () => {
+  const user = useSelector((state) => state?.auth?.auth);
   const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {
-    if (userData?.user?.role !== "superAdmin") router.push("");
+    if (user?.userData?.user?.role !== "superAdmin") router.push("");
   }, [router]);
 
   return (
     <>
-      <UserList />
+      <UserListChild />
     </>
   );
 };
 
-export default Test;
+export default UserList;
