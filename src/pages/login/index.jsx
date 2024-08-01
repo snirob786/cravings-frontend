@@ -7,6 +7,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const Login = () => {
 
   return (
     <>
-      <Flex justify="space-between" align="center" className="h-full">
+      <Flex justify="space-between" align="center">
         <div className="w-full min-h-screen">
           <Image
             src={loginImage}
@@ -91,6 +92,14 @@ const Login = () => {
             >
               Login
             </Button>
+          </div>
+          <div>
+            <p className="text-md">
+              Don't have any account?{" "}
+              <Link href="/register" className="text-blue-500 font-bold">
+                Register
+              </Link>
+            </p>
           </div>
         </div>
       </Flex>
