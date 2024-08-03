@@ -37,7 +37,6 @@ const Login = () => {
             Authorization: userData?.data?.data?.token,
           },
         });
-        console.log("userInfo: ", userInfo);
       } else if (userData?.data?.data?.user?.role === "admin") {
         userInfo = await axios({
           method: "GET",
@@ -47,7 +46,6 @@ const Login = () => {
           },
         });
       }
-      console.log("🚀 ~ handleLogin ~ userInfo:", userInfo);
       let newUserInfo = {
         userData: userData?.data?.data,
         userDetails: userInfo?.data?.data,
@@ -76,7 +74,7 @@ const Login = () => {
           <h2 className="font-semibold text-5xl mb-10">Login</h2>
           <div className="flex flex-col justify-center items-center gap-3 w-3/6">
             <Input
-              placeholder="Username"
+              placeholder="E-mail"
               onChange={(e) => setUsername(e.target.value)}
             />
             <Input.Password

@@ -1,5 +1,13 @@
-import { Button, Flex, Form, Input } from "antd";
-import React, { useState } from "react";
+import {
+  Button,
+  DatePicker,
+  Flex,
+  Form,
+  Input,
+  notification,
+  Radio,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import registerImage from "@/assets/register.png";
 import Image from "next/image";
 import { UserOutlined } from "@ant-design/icons";
@@ -12,56 +20,60 @@ const Register = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const router = useRouter();
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState(null);
+  const [formData, setFormData] = useState({
+    password: null,
+    role: "user",
+    user: {
+      role: "user",
+      name: {
+        firstName: null,
+        middleName: null,
+        lastName: null,
+      },
+      email: null,
+      gender: null,
+      dateOfBirth: null,
+    },
+  });
+
+  useEffect(() => {
+    console.log("formData: ", formData);
+  }, [formData]);
 
   const handleRegister = async () => {
     setIsLoading(true);
-    console.log("name: ", name);
     // TODO: Implement login logic
-    // try {
-    //   const userData = await axios({
-    //     method: "POST",
-    //     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-    //     data: { username, password },
-    //   });
-    //   console.log("userData: ", userData);
+    try {
+      const userData = await axios({
+        method: "POST",
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`,
+        data: formData,
+      });
 
-    //   let userInfo = null;
-    //   if (userData?.data?.data?.user?.role === "superAdmin") {
-    //     console.log("userData: ", userData?.data?.data?.token);
-    //     userInfo = await axios({
-    //       method: "GET",
-    //       url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/${userData?.data?.data?.user?.superAdmin}`,
-    //       headers: {
-    //         Authorization: userData?.data?.data?.token,
-    //       },
-    //     });
-    //     console.log("userInfo: ", userInfo);
-    //   } else if (userData?.data?.data?.user?.role === "admin") {
-    //     userInfo = await axios({
-    //       method: "GET",
-    //       url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${userData?.data?.data?.user?.admin}`,
-    //       headers: {
-    //         Authorization: userData?.data?.data?.token,
-    //       },
-    //     });
-    //   }
-    //   console.log("🚀 ~ handleLogin ~ userInfo:", userInfo);
-    //   let newUserInfo = {
-    //     userData: userData?.data?.data,
-    //     userDetails: userInfo?.data?.data,
-    //   };
-    //   dispatch(setUser(newUserInfo));
-    //   router.push("/dashboard");
-    // } catch (error) {
-    //   console.error("Login error: ", error);
-    //   setIsLoading(false);
-    // }
-    setIsLoading(false);
+      notification.success({
+        placement: "bottomLeft",
+        message: userData?.data?.message,
+        showProgress: true,
+      });
+
+      router.push("/login");
+    } catch (error) {
+      notification.error({
+        placement: "bottomLeft",
+        message: error.response.data.message,
+        showProgress: true,
+      });
+      setIsLoading(false);
+    }
+  };
+
+  const disabledDate = (current) => {
+    const startDate = new Date("1950-01-01").getTime();
+    const endDate = new Date().getTime();
+    return (
+      current && (current.valueOf() < startDate || current.valueOf() > endDate)
+    );
   };
 
   return (
@@ -100,73 +112,103 @@ const Register = () => {
               // onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-              <div className="w-full">
-                <Form.Item
-                  label="First Name"
-                  name="firstName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your first name!",
-                    },
-                  ]}
-                >
-                  <Input
-                    placeholder="First Name"
-                    onChange={(e) =>
-                      setName((prev) => ({
-                        ...prev,
-                        firstName: e.target.value,
-                      }))
-                    }
-                  />
-                </Form.Item>
-                <Form.Item label="Middle Name" name="middleName">
-                  <Input
-                    placeholder="Middle Name"
-                    onChange={(e) =>
-                      setName((prev) => ({
-                        ...prev,
-                        middlename: e.target.value,
-                      }))
-                    }
-                  />
-                </Form.Item>
+              <Form.Item label="Name">
+                {/* <div className="flex items-center justify-between w-full gap-3"></div> */}
+                <Flex align="center" justify="space-between" gap={15}>
+                  <Form.Item
+                    name="firstName"
+                    className="w-full m-0"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your first name!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="First Name"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          user: {
+                            ...formData.user,
+                            name: {
+                              ...formData.user.name,
+                              firstName: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    />
+                  </Form.Item>
+                  <Form.Item name="middleName" className="w-full m-0">
+                    {/* label="Middle Name" */}
+                    <Input
+                      placeholder="Middle Name"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          user: {
+                            ...formData.user,
+                            name: {
+                              ...formData.user.name,
+                              middleName: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  label="Last Name"
-                  name="lastName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your last name!",
-                    },
-                  ]}
-                >
-                  <Input
-                    placeholder="Last Name"
-                    onChange={(e) =>
-                      setName((prev) => ({
-                        ...prev,
-                        lastName: e.target.value,
-                      }))
-                    }
-                  />
-                </Form.Item>
-              </div>
+                  <Form.Item
+                    name="lastName"
+                    className="w-full m-0"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your last name!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Last Name"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          user: {
+                            ...formData.user,
+                            name: {
+                              ...formData.user.name,
+                              lastName: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                    />
+                  </Form.Item>
+                </Flex>
+              </Form.Item>
               <Form.Item
-                label="Username"
-                name="username"
+                label="E-mail"
+                name="email"
                 rules={[
                   {
                     required: true,
-                    message: "Please input an username!",
+                    message: "Please input an e-mail!",
                   },
                 ]}
               >
                 <Input
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="E-mail"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      user: {
+                        ...formData.user,
+                        email: e.target.value,
+                      },
+                    })
+                  }
                 />
               </Form.Item>
 
@@ -183,7 +225,12 @@ const Register = () => {
               >
                 <Input.Password
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      password: e.target.value,
+                    })
+                  }
                 />
               </Form.Item>
 
@@ -209,9 +256,39 @@ const Register = () => {
                   }),
                 ]}
               >
-                <Input.Password
-                  placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                <Input.Password placeholder="Confirm Password" />
+              </Form.Item>
+              <Form.Item label="Gender">
+                <Radio.Group
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      user: {
+                        ...formData.user,
+                        gender: e.target.value,
+                      },
+                    })
+                  }
+                >
+                  <Radio value="male"> Male </Radio>
+                  <Radio value="female"> Female </Radio>
+                  <Radio value="other"> Other </Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item label="Date of Birth">
+                <DatePicker
+                  disabledDate={disabledDate}
+                  format="DD-MM-YYYY"
+                  className="w-full"
+                  onChange={(_, dateStr) =>
+                    setFormData({
+                      ...formData,
+                      user: {
+                        ...formData.user,
+                        dateOfBirth: dateStr,
+                      },
+                    })
+                  }
                 />
               </Form.Item>
 
