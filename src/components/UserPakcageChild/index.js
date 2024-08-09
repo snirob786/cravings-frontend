@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { DashboardLayout } from "../dashboardLayout/dashboardLayout";
-import { Button, Input, Table, Tabs, Tooltip, Dropdown, Space } from "antd";
+import {
+  Button,
+  Input,
+  Table,
+  Tabs,
+  Tooltip,
+  Dropdown,
+  Space,
+  Col,
+  Row,
+  Card,
+} from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,8 +18,8 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { CopyItem } from "../copyId/copyid";
 import { DownOutlined } from "@ant-design/icons";
+import { CopyItem } from "@/components/copyId/copyid";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 // const operations = (
 //   <Button>
@@ -23,7 +33,13 @@ const getRandomuserParams = (params) => ({
   ...params,
 });
 
-export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
+const style = {
+  // background: "#0092ff",
+  // padding: "8px 0",
+  width: "24.5%",
+};
+
+const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const user = useSelector((state) => state?.auth?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -48,7 +64,7 @@ export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/delivery-mans`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user-packages`, {
         headers: {
           Authorization: user?.userData?.token,
         },
@@ -188,57 +204,65 @@ export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-5">
-          <p>Change Status</p>
-          <Button
-            type="primary"
-            // onClick={start}
-            disabled={!selectedRowKeys?.length > 0}
-            loading={loading}
-          >
-            Active
-          </Button>
-          <Button
-            type="primary"
-            // onClick={start}
-            disabled={!selectedRowKeys?.length > 0}
-            loading={loading}
-            danger
-          >
-            Inactive
-          </Button>
-
-          {selectedRowKeys?.length > 0 && (
-            <p className="m-0">
-              {selectedRowKeys.length}{" "}
-              {selectedRowKeys.length > 1
-                ? "items are selected"
-                : "item is selected"}
-            </p>
-          )}
+      <div className="flex items-center gap-2 py-5 flex-wrap">
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
         </div>
-        <div className="w-1/4">
-          <Tooltip title="Search admin ID, admin Name, Contact number, Email, admin first name, admin last name, admin middle name">
-            <Input
-              placeholder="Search"
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Tooltip>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
+        </div>
+        <div style={style}>
+          <Card title="Card title" bordered={false}>
+            Card content
+          </Card>
         </div>
       </div>
-      <Table
-        columns={columns}
-        rowKey={(record) => record.id}
-        dataSource={data}
-        pagination={tableParams.pagination}
-        loading={loading}
-        onChange={handleTableChange}
-        rowSelection={rowSelection}
-        scroll={{
-          x: 900,
-        }}
-      />
     </>
   );
 };
+
+export default PackagesChild;

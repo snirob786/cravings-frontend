@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SuperAdminDashboardLayout } from "../superAdminDashboardLayout/superAdminDashboardLayout";
-import { SuperAdminSidebar } from "../superAdminSibebar/superAdminSidebar";
+import { DashboardLayout } from "../dashboardLayout/dashboardLayout";
 import { Button, Input, Table, Tabs, Tooltip, Dropdown, Space } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";

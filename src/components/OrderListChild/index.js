@@ -23,7 +23,7 @@ const getRandomuserParams = (params) => ({
   ...params,
 });
 
-export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
+export const OrderListChild = () => {
   const user = useSelector((state) => state?.auth?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -34,6 +34,7 @@ export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
     },
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRowKeys, setSelectedRowKeys] = useState(null);
   const items = [
     {
       label: <p>Change to Active</p>,
@@ -48,7 +49,7 @@ export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const fetchData = () => {
     setLoading(true);
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/delivery-mans`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/orders`, {
         headers: {
           Authorization: user?.userData?.token,
         },
@@ -188,7 +189,7 @@ export const DeliveryManList = ({ selectedRowKeys, setSelectedRowKeys }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between my-3">
         <div className="flex items-center gap-5">
           <p>Change Status</p>
           <Button

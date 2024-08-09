@@ -45,7 +45,16 @@ const Login = () => {
             Authorization: userData?.data?.data?.token,
           },
         });
+      } else if (userData?.data?.data?.user?.role === "user") {
+        userInfo = await axios({
+          method: "GET",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/normal-users/${userData?.data?.data?.user?.user}`,
+          headers: {
+            Authorization: userData?.data?.data?.token,
+          },
+        });
       }
+
       let newUserInfo = {
         userData: userData?.data?.data,
         userDetails: userInfo?.data?.data,

@@ -27,6 +27,7 @@ export default function MainHeader() {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.auth);
+  console.log("user: ", user);
   const items = [
     {
       label: (
@@ -57,7 +58,7 @@ export default function MainHeader() {
     console.log("click ", e);
     if (e.key === "logout") {
       dispatch(logout());
-      router.push("/login");
+      router.push("login");
     } else {
       router.push(e.key);
     }

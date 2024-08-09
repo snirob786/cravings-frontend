@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SuperAdminDashboardLayout } from "../superAdminDashboardLayout/superAdminDashboardLayout";
-import { SuperAdminSidebar } from "../superAdminSibebar/superAdminSidebar";
+import { DashboardLayout } from "../dashboardLayout/dashboardLayout";
 import { Button, Table, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -68,9 +67,5 @@ export const UserListChild = () => {
   useEffect(() => {
     console.log("selectedRowKeys: ", selectedRowKeys);
   }, [selectedRowKeys]);
-  return (
-    <SuperAdminDashboardLayout sidebar={<SuperAdminSidebar />}>
-      <Tabs tabBarExtraContent={operations} items={items} />
-    </SuperAdminDashboardLayout>
-  );
+  return <Tabs tabBarExtraContent={operations} items={items} />;
 };
