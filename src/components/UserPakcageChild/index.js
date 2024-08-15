@@ -14,7 +14,10 @@ import {
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsisVertical,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
@@ -80,7 +83,7 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
       .then((res) => {
         console.log("res: ", res);
         console.log("res?.data?.data: ", res?.data?.data);
-        setData(res?.data?.data?.result);
+        setData(res?.data?.data);
         setLoading(false);
         setTableParams({
           ...tableParams,
@@ -126,139 +129,78 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
     onChange: onSelectChange,
   };
 
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      width: "15%",
-      render: (id) => (
-        <>
-          <CopyItem item={id} />
-        </>
-      ),
-    },
-    {
-      title: "Name",
-      dataIndex: "fullName",
-      sorter: true,
-      // render: (name) => `${name.first} ${name.last}`,
-      // value: "fullName",
-      width: "15%",
-    },
-    {
-      title: "Gender",
-      dataIndex: "gender",
-      render: (gender) => <p className="capitalize">{gender}</p>,
-      filters: [
-        {
-          text: "Male",
-          value: "male",
-        },
-        {
-          text: "Female",
-          value: "female",
-        },
-      ],
-      width: "5%",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      render: (email) => <CopyItem item={email} />,
-    },
-    {
-      title: "Mobile",
-      dataIndex: "contactNo",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      filters: [
-        {
-          text: "Active",
-          value: "active",
-        },
-        {
-          text: "Inactive",
-          value: "inactive",
-        },
-      ],
-      render: (status) => (
-        <p
-          className={`capitalize ${
-            status === "active" ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          {status}
-        </p>
-      ),
-      width: "5%",
-    },
-    {
-      title: "Created On",
-      dataIndex: "createdAt",
-      sorter: true,
-      render: (date) => <p>{moment(date).format("Do MMM, YYYY hh:mm A")}</p>,
-    },
-  ];
-
   return (
     <>
       <div className="flex items-center gap-2 py-5 flex-wrap">
         <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-        </div>
-        <div style={style}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
+          {data &&
+            data.map((item) => (
+              <>
+                <div key={item?._id}>
+                  <Card
+                    title={
+                      <span className="text-xl font-bold">{item.title}</span>
+                    }
+                    bordered={false}
+                  >
+                    <div>
+                      <div>
+                        <span className="font-bold text-lg">
+                          {item?.price} BDT
+                        </span>
+                      </div>
+                      <ul>
+                        <li>
+                          <span className="font-bold text-xs">Duration:</span>{" "}
+                          {(item.validityDays / 30).toFixed()} Months
+                        </li>
+                        <li>
+                          <Tooltip title="Number of maximum menu items can be added">
+                            <span className="font-bold text-xs">
+                              Menu:{" "}
+                              <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                            </span>{" "}
+                          </Tooltip>
+                          {item.menuItemLimit}
+                        </li>
+                        <li>
+                          <Tooltip title="Number of maximum special menu items can be added">
+                            <span className="font-bold text-xs">
+                              Special Menu:{" "}
+                              <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                            </span>{" "}
+                          </Tooltip>
+                          {item.specialMenuLimit}
+                        </li>
+                        <li>
+                          <Tooltip title="Number of maximum platter can be added">
+                            <span className="font-bold text-xs">
+                              Platter:{" "}
+                              <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                            </span>{" "}
+                          </Tooltip>
+                          {item.platterLimit}
+                        </li>
+                        <li>
+                          <Tooltip title="Number of maximum moderator can be added">
+                            <span className="font-bold text-xs">
+                              Moderator:{" "}
+                              <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                            </span>{" "}
+                          </Tooltip>
+                          {item.moderatorLimit}
+                        </li>
+                      </ul>
+                      <div className="mt-5">
+                        <Button type="primary" htmlType="submit">
+                          Buy Now
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </>
+            ))}
         </div>
       </div>
     </>

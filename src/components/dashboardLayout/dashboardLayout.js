@@ -42,28 +42,28 @@ export const DashboardLayout = ({ children }) => {
             }}
           >
             <div className="mx-6">
-              {((auth?.userDetails?.role === "user" &&
-                !auth?.userDetails?.package) ||
-                !router?.asPath?.includes("packages")) && (
-                <div className="my-5">
-                  <Alert
-                    message="Not an Admin?"
-                    description="Visit our packages and become an Admin"
-                    type="info"
-                    action={
-                      <Space direction="vertical">
-                        <Button
-                          size="small"
-                          type="primary"
-                          onClick={() => router.push("dashboard/packages")}
-                        >
-                          Packages
-                        </Button>
-                      </Space>
-                    }
-                  />
-                </div>
-              )}
+              {auth?.userDetails?.role === "user" &&
+                !auth?.userDetails?.package &&
+                !router?.asPath?.includes("packages") && (
+                  <div className="my-5">
+                    <Alert
+                      message="Not an Admin?"
+                      description="Visit our packages and become an Admin"
+                      type="info"
+                      action={
+                        <Space direction="vertical">
+                          <Button
+                            size="small"
+                            type="primary"
+                            onClick={() => router.push("dashboard/packages")}
+                          >
+                            Packages
+                          </Button>
+                        </Space>
+                      }
+                    />
+                  </div>
+                )}
 
               <div>{children}</div>
             </div>
