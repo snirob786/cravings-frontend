@@ -1,4 +1,4 @@
-import { Avatar, Menu } from "antd";
+import { Avatar, Divider, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -11,6 +11,10 @@ const superAdminDashboard = [
   {
     label: "User List",
     key: "/dashboard/user-list",
+  },
+  {
+    label: "Packages",
+    key: "/dashboard/packages",
   },
 ];
 
@@ -30,19 +34,19 @@ const userDashboard = [
 ];
 
 export const Sidebar = () => {
-  const user = useSelector((state) => state.auth.auth);
+  const auth = useSelector((state) => state.auth.auth);
   const router = useRouter();
   const [items, setItems] = useState(null);
 
   useEffect(() => {
-    console.log("user: ", user);
-    if (user?.userData?.user?.role === "superAdmin") {
+    console.log("user: ", auth);
+    if (auth?.userData?.user?.role === "superAdmin") {
       setItems(superAdminDashboard);
-    } else if (user?.userData?.user?.role === "admin") {
-    } else if (user?.userData?.user?.role === "user") {
+    } else if (auth?.userData?.user?.role === "admin") {
+    } else if (auth?.userData?.user?.role === "user") {
       setItems(userDashboard);
     }
-  }, [user]);
+  }, [auth]);
 
   const [selectedKey, setSelectedKey] = useState(router.pathname);
 
@@ -60,15 +64,35 @@ export const Sidebar = () => {
           left: 0,
           top: 64,
           bottom: 0,
+          backgroundColor: "white",
         }}
+        className="drop-shadow-2xl"
       >
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={[selectedKey]}
-          items={items}
-          onClick={(item) => handleMenuClick(item)}
-          className="min-h-full"
-        />
+        <div className="h-full">
+          <div className="bg-white px-2 py-4 flex items-center gap-2">
+            <Avatar
+              style={{ backgroundColor: "#f56a00", verticalAlign: "middle" }}
+              size="small"
+              gap={4}
+            >
+              {console.log("auth: ", auth)}
+              {auth?.userDetails?.name?.firstName?.slice(0, 1)}
+            </Avatar>
+            <div>
+              <p className="text-base">{auth?.userDetails?.fullName}</p>
+              <p className="text-xs font-thin capitalize">
+                {auth?.userDetails?.designation || auth?.userDetails?.role}
+              </p>
+            </div>
+          </div>
+          <Divider className="m-0" />
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={[selectedKey]}
+            items={items}
+            onClick={(item) => handleMenuClick(item)}
+          />
+        </div>
       </Sider>
     </>
   );

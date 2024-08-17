@@ -45,8 +45,14 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
     },
   ];
 
+  useEffect(() => {
+    console.log("tableParams: ", tableParams);
+  }, [tableParams]);
+
   const fetchData = () => {
     setLoading(true);
+    console.log("tableParams.filters: ", tableParams.filters);
+
     axios
       .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admins`, {
         headers: {
