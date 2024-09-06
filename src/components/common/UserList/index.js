@@ -6,7 +6,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import { AdminList } from "../AdminList";
+import { AdminList } from "../../AdminList";
 import { ModeratorList } from "../ModeratorList";
 import { DeliveryManList } from "../DeliveryManList";
 const operations = (

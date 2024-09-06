@@ -7,10 +7,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
-import { SuperAdminDashboard } from "@/components/superAdminDashboard";
+import { SuperAdminDashboard } from "@/components/superAdmin/superAdminDashboard";
 import { AdminList } from "@/components/AdminList";
-import { DashboardLayout } from "@/components/dashboardLayout/dashboardLayout";
-import { OrderListChild } from "@/components/OrderListChild";
+import { DashboardLayout } from "@/components/common/dashboardLayout/dashboardLayout";
+import { OrderListChild } from "@/components/common/OrderListChild";
 import PackagesChild from "@/components/UserPakcageChild";
 
 const OrderList = () => {

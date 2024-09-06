@@ -7,10 +7,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
-import { SuperAdminDashboard } from "@/components/superAdminDashboard";
+import { SuperAdminDashboard } from "@/components/superAdmin/superAdminDashboard";
 import { AdminList } from "@/components/AdminList";
-import { UserListChild } from "@/components/UserList";
-import { DashboardLayout } from "@/components/dashboardLayout/dashboardLayout";
+import { UserListChild } from "@/components/common/UserList";
+import { DashboardLayout } from "@/components/common/dashboardLayout/dashboardLayout";
 
 const UserList = () => {
   const user = useSelector((state) => state?.auth?.auth);

@@ -18,7 +18,7 @@ import {
 const { Header } = Layout;
 const { Title } = Typography;
 const { Link } = Anchor;
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/images/logo.jpg";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";

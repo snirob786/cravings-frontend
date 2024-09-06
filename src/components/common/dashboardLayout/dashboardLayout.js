@@ -1,5 +1,5 @@
 import React from "react";
-import MainHeader from "../mainHeader";
+import MainHeader from "../../mainHeader";
 import { Alert, Button, Flex, Layout, Menu, Space } from "antd";
 import DashboardFooter from "../dashboardFooter";
 import { Sidebar } from "../sibebar/sidebar";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DashboardLayout } from "../dashboardLayout/dashboardLayout";
+import { DashboardLayout } from "../common/dashboardLayout/dashboardLayout";
 import { Button, Input, Table, Tabs, Tooltip, Dropdown, Space } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { CopyItem } from "../copyId/copyid";
+import { CopyItem } from "../common/copyId/copyid";
 import { DownOutlined } from "@ant-design/icons";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 // const operations = (

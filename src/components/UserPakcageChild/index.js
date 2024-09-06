@@ -22,7 +22,7 @@ import moment from "moment";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { DownOutlined } from "@ant-design/icons";
-import { CopyItem } from "@/components/copyId/copyid";
+import { CopyItem } from "@/components/common/copyId/copyid";
 import { CreateUserPackageModal } from "./createUserPackageModal";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 // const operations = (
