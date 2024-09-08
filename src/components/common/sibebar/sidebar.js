@@ -17,6 +17,20 @@ const superAdminDashboard = [
     key: "/dashboard/packages",
   },
 ];
+const adminDashboard = [
+  {
+    label: "Dashboard",
+    key: "/dashboard",
+  },
+  {
+    label: "User List",
+    key: "/dashboard/user-list",
+  },
+  {
+    label: "Packages",
+    key: "/dashboard/packages",
+  },
+];
 
 const userDashboard = [
   {
@@ -43,6 +57,7 @@ export const Sidebar = () => {
     if (auth?.userData?.user?.role === "superAdmin") {
       setItems(superAdminDashboard);
     } else if (auth?.userData?.user?.role === "admin") {
+      setItems(adminDashboard);
     } else if (auth?.userData?.user?.role === "user") {
       setItems(userDashboard);
     }

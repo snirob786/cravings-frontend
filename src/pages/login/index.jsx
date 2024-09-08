@@ -1,13 +1,13 @@
-import { Button, Flex, Input } from "antd";
-import React, { useState } from "react";
-import loginImage from "@/assets/login.png";
-import Image from "next/image";
-import { UserOutlined } from "@ant-design/icons";
-import axios from "axios";
-import { useDispatch } from "react-redux";
+import loginImage from "@/assets/images/login.png";
 import { setUser } from "@/redux/features/authSlice";
-import { useRouter } from "next/router";
+import { UserOutlined } from "@ant-design/icons";
+import { Button, Flex, Input } from "antd";
+import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,14 +25,17 @@ const Login = () => {
         url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
         data: { username, password },
       });
-      console.log("userData: ", userData);
 
       let userInfo = null;
       if (userData?.data?.data?.user?.role === "superAdmin") {
         console.log("userData: ", userData?.data?.data?.token);
         userInfo = await axios({
           method: "GET",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/${userData?.data?.data?.user?.superAdmin}`,
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/${
+            userData?.data?.data?.user?.superAdmin?._id
+              ? userData?.data?.data?.user?.superAdmin?._id
+              : userData?.data?.data?.user?.superAdmin
+          }`,
           headers: {
             Authorization: userData?.data?.data?.token,
           },
@@ -40,7 +43,11 @@ const Login = () => {
       } else if (userData?.data?.data?.user?.role === "admin") {
         userInfo = await axios({
           method: "GET",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${userData?.data?.data?.user?.admin}`,
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${
+            userData?.data?.data?.user?.admin?._id
+              ? userData?.data?.data?.user?.admin?._id
+              : userData?.data?.data?.user?.admin
+          }`,
           headers: {
             Authorization: userData?.data?.data?.token,
           },
@@ -48,7 +55,11 @@ const Login = () => {
       } else if (userData?.data?.data?.user?.role === "user") {
         userInfo = await axios({
           method: "GET",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/normal-users/${userData?.data?.data?.user?.user}`,
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/normal-users/${
+            userData?.data?.data?.user?.user?._id
+              ? userData?.data?.data?.user?.user?._id
+              : userData?.data?.data?.user?.user
+          }`,
           headers: {
             Authorization: userData?.data?.data?.token,
           },

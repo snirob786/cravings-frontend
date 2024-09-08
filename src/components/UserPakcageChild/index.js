@@ -39,6 +39,9 @@ const style = {
 
 const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const auth = useSelector((state) => state?.auth?.auth);
+  const userPacakgeData = useSelector(
+    (state) => state?.auth?.auth?.userData?.user?.userPackage
+  );
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -189,6 +192,7 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
                         type="primary"
                         htmlType="submit"
                         onClick={() => handleChangeUserPackage(item?._id)}
+                        disabled={item?._id === userPacakgeData?._id}
                       >
                         Buy Now
                       </Button>

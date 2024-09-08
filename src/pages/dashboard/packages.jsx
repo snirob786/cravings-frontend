@@ -1,6 +1,5 @@
 import { Button, Flex, Input, Result } from "antd";
 import React, { useEffect, useState } from "react";
-import loginImage from "@/assets/login.png";
 import Image from "next/image";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
