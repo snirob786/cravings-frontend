@@ -38,9 +38,9 @@ const style = {
 };
 
 const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
-  const auth = useSelector((state) => state?.auth?.auth);
+  const auth = useSelector((state) => state?.auth);
   const userPacakgeData = useSelector(
-    (state) => state?.auth?.auth?.userData?.user?.userPackage
+    (state) => state?.auth?.userData?.user?.userPackage
   );
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
@@ -110,7 +110,7 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
     try {
       const changedUser = await axios({
         method: "POST",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/change-to-admin`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/change-to-admin/${auth?.userData?._id}`,
         headers: {
           Authorization: auth?.userData?.token,
         },
@@ -131,76 +131,70 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
       <div className="flex items-center gap-2 py-5 flex-wrap">
         {data &&
           data.map((item) => (
-            <>
-              <div key={item?._id} style={style}>
-                <Card
-                  title={
-                    <span className="text-xl font-bold">{item.title}</span>
-                  }
-                  bordered={false}
-                >
+            <div key={item?._id} style={style}>
+              <Card
+                title={<span className="text-xl font-bold">{item.title}</span>}
+                bordered={false}
+              >
+                <div>
                   <div>
-                    <div>
-                      <span className="font-bold text-lg">
-                        {item?.price} BDT
-                      </span>
-                    </div>
-                    <ul>
-                      <li>
-                        <span className="font-bold text-xs">Duration:</span>{" "}
-                        {(item.validityDays / 30).toFixed()} Months
-                      </li>
-                      <li>
-                        <Tooltip title="Number of maximum menu items can be added">
-                          <span className="font-bold text-xs">
-                            Menu:{" "}
-                            <FontAwesomeIcon icon={faInfoCircle} size="xs" />
-                          </span>{" "}
-                        </Tooltip>
-                        {item.menuItemLimit}
-                      </li>
-                      <li>
-                        <Tooltip title="Number of maximum special menu items can be added">
-                          <span className="font-bold text-xs">
-                            Special Menu:{" "}
-                            <FontAwesomeIcon icon={faInfoCircle} size="xs" />
-                          </span>{" "}
-                        </Tooltip>
-                        {item.specialMenuLimit}
-                      </li>
-                      <li>
-                        <Tooltip title="Number of maximum platter can be added">
-                          <span className="font-bold text-xs">
-                            Platter:{" "}
-                            <FontAwesomeIcon icon={faInfoCircle} size="xs" />
-                          </span>{" "}
-                        </Tooltip>
-                        {item.platterLimit}
-                      </li>
-                      <li>
-                        <Tooltip title="Number of maximum moderator can be added">
-                          <span className="font-bold text-xs">
-                            Moderator:{" "}
-                            <FontAwesomeIcon icon={faInfoCircle} size="xs" />
-                          </span>{" "}
-                        </Tooltip>
-                        {item.moderatorLimit}
-                      </li>
-                    </ul>
-                    <div className="mt-5">
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        onClick={() => handleChangeUserPackage(item?._id)}
-                        disabled={item?._id === userPacakgeData?._id}
-                      >
-                        Buy Now
-                      </Button>
-                    </div>
+                    <span className="font-bold text-lg">{item?.price} BDT</span>
                   </div>
-                </Card>
-              </div>
-            </>
+                  <ul>
+                    <li>
+                      <span className="font-bold text-xs">Duration:</span>{" "}
+                      {(item.validityDays / 30).toFixed()} Months
+                    </li>
+                    <li>
+                      <Tooltip title="Number of maximum menu items can be added">
+                        <span className="font-bold text-xs">
+                          Menu:{" "}
+                          <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                        </span>{" "}
+                      </Tooltip>
+                      {item.menuItemLimit}
+                    </li>
+                    <li>
+                      <Tooltip title="Number of maximum special menu items can be added">
+                        <span className="font-bold text-xs">
+                          Special Menu:{" "}
+                          <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                        </span>{" "}
+                      </Tooltip>
+                      {item.specialMenuLimit}
+                    </li>
+                    <li>
+                      <Tooltip title="Number of maximum platter can be added">
+                        <span className="font-bold text-xs">
+                          Platter:{" "}
+                          <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                        </span>{" "}
+                      </Tooltip>
+                      {item.platterLimit}
+                    </li>
+                    <li>
+                      <Tooltip title="Number of maximum moderator can be added">
+                        <span className="font-bold text-xs">
+                          Moderator:{" "}
+                          <FontAwesomeIcon icon={faInfoCircle} size="xs" />
+                        </span>{" "}
+                      </Tooltip>
+                      {item.moderatorLimit}
+                    </li>
+                  </ul>
+                  <div className="mt-5">
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={() => handleChangeUserPackage(item?._id)}
+                      disabled={item?._id === userPacakgeData?._id}
+                    >
+                      Buy Now
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
           ))}
         <div style={style}></div>
       </div>

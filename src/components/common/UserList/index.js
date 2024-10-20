@@ -16,7 +16,7 @@ const operations = (
 );
 
 export const UserListChild = () => {
-  const user = useSelector((state) => state?.auth?.auth);
+  const user = useSelector((state) => state?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);

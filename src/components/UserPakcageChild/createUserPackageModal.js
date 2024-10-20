@@ -42,7 +42,7 @@ export const CreateUserPackageModal = ({
   data,
   setData,
 }) => {
-  const auth = useSelector((state) => state?.auth?.auth);
+  const auth = useSelector((state) => state?.auth);
   const [api, contextHolder] = notification.useNotification();
   const [isLoading, setIsLoading] = useState(false);
   const [values, setValues] = useState(null);

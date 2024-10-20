@@ -26,9 +26,9 @@ const Login = () => {
         data: { username, password },
       });
 
+      console.log("🚀 ~ handleLogin ~ userData:", userData);
       let userInfo = null;
       if (userData?.data?.data?.user?.role === "superAdmin") {
-        console.log("userData: ", userData?.data?.data?.token);
         userInfo = await axios({
           method: "GET",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/${
@@ -56,9 +56,9 @@ const Login = () => {
         userInfo = await axios({
           method: "GET",
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/normal-users/${
-            userData?.data?.data?.user?.user?._id
-              ? userData?.data?.data?.user?.user?._id
-              : userData?.data?.data?.user?.user
+            userData?.data?.data?.user?._id
+              ? userData?.data?.data?.user?._id
+              : userData?.data?.data?.user
           }`,
           headers: {
             Authorization: userData?.data?.data?.token,
@@ -66,6 +66,7 @@ const Login = () => {
         });
       }
 
+      console.log("🚀 ~ handleLogin ~ newUserInfo.userInfo:", userInfo);
       let newUserInfo = {
         userData: userData?.data?.data,
         userDetails: userInfo?.data?.data,

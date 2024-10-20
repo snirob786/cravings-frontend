@@ -13,7 +13,7 @@ import { OrderListChild } from "@/components/common/OrderListChild";
 import PackagesChild from "@/components/UserPakcageChild";
 
 const OrderList = () => {
-  const user = useSelector((state) => state?.auth?.auth);
+  const user = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const router = useRouter();
 

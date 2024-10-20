@@ -30,6 +30,10 @@ const adminDashboard = [
     label: "Packages",
     key: "/dashboard/packages",
   },
+  {
+    label: "Restaurant",
+    key: "/dashboard/restaurant",
+  },
 ];
 
 const userDashboard = [
@@ -48,7 +52,7 @@ const userDashboard = [
 ];
 
 export const Sidebar = () => {
-  const auth = useSelector((state) => state.auth.auth);
+  const auth = useSelector((state) => state.auth);
   const router = useRouter();
   const [items, setItems] = useState(null);
 

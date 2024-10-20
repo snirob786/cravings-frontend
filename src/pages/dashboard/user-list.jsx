@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 const UserList = () => {
-  const user = useSelector((state) => state?.auth?.auth);
+  const user = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const router = useRouter();
 

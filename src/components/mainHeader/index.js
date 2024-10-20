@@ -26,7 +26,7 @@ import { logout } from "@/redux/features/authSlice";
 export default function MainHeader() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.auth);
+  const user = useSelector((state) => state.auth);
   console.log("user: ", user);
   const items = [
     {

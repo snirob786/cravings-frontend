@@ -8,13 +8,14 @@ import {
   Radio,
 } from "antd";
 import React, { useEffect, useState } from "react";
-import registerImage from "@/assets/register.png";
+import RegisterImage from "@/assets/images/register.png";
 import Image from "next/image";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Register = () => {
   const [form] = Form.useForm();
@@ -81,7 +82,7 @@ const Register = () => {
       <Flex justify="space-between" align="center" className="h-full">
         <div className="w-full min-h-screen">
           <Image
-            src={registerImage}
+            src={RegisterImage}
             width={1000}
             height={1000}
             alt="Cravings Logo"
@@ -299,12 +300,22 @@ const Register = () => {
                   // onClick={handleLogin}
                   htmlType="submit"
                   loading={isLoading}
-                  // disabled={!username || !password || isLoading}
+                  disabled={
+                    !formData?.user?.email || !formData?.password || isLoading
+                  }
                 >
-                  Login
+                  Register
                 </Button>
               </div>
             </Form>
+            <div>
+              <p className="text-md">
+                Already have any account?{" "}
+                <Link href="/login" className="text-blue-500 font-bold">
+                  Login
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </Flex>

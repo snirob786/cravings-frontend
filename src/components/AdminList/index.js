@@ -24,7 +24,7 @@ const getRandomuserParams = (params) => ({
 });
 
 export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
-  const user = useSelector((state) => state?.auth?.auth);
+  const user = useSelector((state) => state?.auth);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({

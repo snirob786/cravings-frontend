@@ -1,4 +1,4 @@
-import { Button, Flex, Input } from "antd";
+import { Button, Flex, Input, Result } from "antd";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { UserOutlined } from "@ant-design/icons";
@@ -7,27 +7,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/features/authSlice";
 import { useRouter } from "next/router";
 import { SuperAdminDashboard } from "@/components/superAdmin/superAdminDashboard";
-import { UserDashboard } from "@/components/user/userDashboard";
-import { AdminDashboard } from "@/components/admin/adminDashboard";
+import { AdminList } from "@/components/AdminList";
+import { DashboardLayout } from "@/components/common/dashboardLayout/dashboardLayout";
+import { OrderListChild } from "@/components/common/OrderListChild";
+import PackagesChild from "@/components/UserPakcageChild";
 
-const Dashboard = () => {
+const Restaurant = () => {
   const user = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user]);
-
   return (
     <>
-      {user?.userData?.user?.role === "superAdmin" && <SuperAdminDashboard />}
-      {user?.userData?.user?.role === "user" && <UserDashboard />}
-      {user?.userData?.user?.role === "admin" && <AdminDashboard />}
+      <DashboardLayout>
+        {user?.userData?.user?.userPackage?._id && <p>Your package</p>}
+      </DashboardLayout>
     </>
   );
 };
 
-export default Dashboard;
+export default Restaurant;

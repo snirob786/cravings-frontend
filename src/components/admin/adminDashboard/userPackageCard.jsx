@@ -6,7 +6,7 @@ const { Title } = Typography;
 
 export const DashboardUserPackageCard = () => {
   const userPacakgeData = useSelector(
-    (state) => state?.auth?.auth?.userData?.user?.userPackage
+    (state) => state?.auth?.userData?.user?.userPackage
   );
   console.log("userPacakgeData: ", userPacakgeData);
   return (

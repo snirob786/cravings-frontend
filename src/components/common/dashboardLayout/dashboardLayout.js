@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainHeader from "../../mainHeader";
 import { Alert, Button, Flex, Layout, Menu, Space } from "antd";
 import DashboardFooter from "../dashboardFooter";
@@ -7,21 +7,27 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 export const DashboardLayout = ({ children }) => {
-  const auth = useSelector((state) => state?.auth?.auth);
+  const auth = useSelector((state) => state?.auth);
   const router = useRouter();
+  useEffect(() => {
+    if (!auth) {
+      router.push("/login");
+    }
+  }, [auth]);
   return (
     <>
-      <Layout>
-        <div
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-            width: "100%",
-          }}
-        >
-          <MainHeader />
-          {/* <div className="demo-logo" />
+      {auth && (
+        <Layout>
+          <div
+            style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              width: "100%",
+            }}
+          >
+            <MainHeader />
+            {/* <div className="demo-logo" />
           <Menu
             theme="dark"
             mode="horizontal"
@@ -32,45 +38,46 @@ export const DashboardLayout = ({ children }) => {
               minWidth: 0,
             }}
           /> */}
-        </div>
-        <Layout hasSider>
-          <Sidebar />
+          </div>
+          <Layout hasSider>
+            <Sidebar />
 
-          <Layout
-            style={{
-              marginLeft: 200,
-            }}
-          >
-            <div className="mx-6">
-              {auth?.userDetails?.role === "user" &&
-                !auth?.userDetails?.package &&
-                !router?.asPath?.includes("packages") && (
-                  <div className="my-5">
-                    <Alert
-                      message="Not an Admin?"
-                      description="Visit our packages and become an Admin"
-                      type="info"
-                      action={
-                        <Space direction="vertical">
-                          <Button
-                            size="small"
-                            type="primary"
-                            onClick={() => router.push("dashboard/packages")}
-                          >
-                            Packages
-                          </Button>
-                        </Space>
-                      }
-                    />
-                  </div>
-                )}
+            <Layout
+              style={{
+                marginLeft: 200,
+              }}
+            >
+              <div className="mx-6">
+                {auth?.userDetails?.role === "user" &&
+                  !auth?.userDetails?.package &&
+                  !router?.asPath?.includes("packages") && (
+                    <div className="my-5">
+                      <Alert
+                        message="Not an Admin?"
+                        description="Visit our packages and become an Admin"
+                        type="info"
+                        action={
+                          <Space direction="vertical">
+                            <Button
+                              size="small"
+                              type="primary"
+                              onClick={() => router.push("dashboard/packages")}
+                            >
+                              Packages
+                            </Button>
+                          </Space>
+                        }
+                      />
+                    </div>
+                  )}
 
-              <div>{children}</div>
-            </div>
-            <DashboardFooter />
+                <div>{children}</div>
+              </div>
+              <DashboardFooter />
+            </Layout>
           </Layout>
         </Layout>
-      </Layout>
+      )}
       {/* <Layout>
         <MainHeader />
         <Flex
