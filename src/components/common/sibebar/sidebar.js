@@ -57,7 +57,6 @@ export const Sidebar = () => {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
-    console.log("user: ", auth);
     if (auth?.userData?.user?.role === "superAdmin") {
       setItems(superAdminDashboard);
     } else if (auth?.userData?.user?.role === "admin") {

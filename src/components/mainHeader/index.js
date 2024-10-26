@@ -1,9 +1,5 @@
-import styles from "./main-header.module.css";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import logo from "@/assets/images/logo.jpg";
+import { logout } from "@/redux/features/authSlice";
 import {
   Anchor,
   Avatar,
@@ -15,19 +11,17 @@ import {
   Row,
   Typography,
 } from "antd";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./main-header.module.css";
 const { Header } = Layout;
 const { Title } = Typography;
 const { Link } = Anchor;
-import logo from "@/assets/images/logo.jpg";
-import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import { logout } from "@/redux/features/authSlice";
 export default function MainHeader() {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
-  console.log("user: ", user);
   const items = [
     {
       label: (
@@ -55,7 +49,6 @@ export default function MainHeader() {
   ];
 
   const onClick = (e) => {
-    console.log("click ", e);
     if (e.key === "logout") {
       dispatch(logout());
       router.push("/login");

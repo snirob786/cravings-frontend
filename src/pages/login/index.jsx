@@ -1,8 +1,10 @@
 import loginImage from "@/assets/images/login.png";
 import { setUser } from "@/redux/features/authSlice";
+import requestHandler from "@/services/requestHandler";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Flex, Input } from "antd";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -20,56 +22,23 @@ const Login = () => {
     setIsLoading(true);
     // TODO: Implement login logic
     try {
-      const userData = await axios({
-        method: "POST",
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
-        data: { username, password },
+      const user = await requestHandler("POST", "auth/login", {
+        username,
+        password,
       });
 
-      console.log("🚀 ~ handleLogin ~ userData:", userData);
       let userInfo = null;
-      if (userData?.data?.data?.user?.role === "superAdmin") {
-        userInfo = await axios({
-          method: "GET",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/super-admins/${
-            userData?.data?.data?.user?.superAdmin?._id
-              ? userData?.data?.data?.user?.superAdmin?._id
-              : userData?.data?.data?.user?.superAdmin
-          }`,
-          headers: {
-            Authorization: userData?.data?.data?.token,
-          },
-        });
-      } else if (userData?.data?.data?.user?.role === "admin") {
-        userInfo = await axios({
-          method: "GET",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/admins/${
-            userData?.data?.data?.user?.admin?._id
-              ? userData?.data?.data?.user?.admin?._id
-              : userData?.data?.data?.user?.admin
-          }`,
-          headers: {
-            Authorization: userData?.data?.data?.token,
-          },
-        });
-      } else if (userData?.data?.data?.user?.role === "user") {
-        userInfo = await axios({
-          method: "GET",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/normal-users/${
-            userData?.data?.data?.user?._id
-              ? userData?.data?.data?.user?._id
-              : userData?.data?.data?.user
-          }`,
-          headers: {
-            Authorization: userData?.data?.data?.token,
-          },
-        });
+      if (user?.user?.role === "superAdmin") {
+        userInfo = user?.user?.superAdmin;
+      } else if (user?.user?.role === "admin") {
+        userInfo = user?.user?.admin;
+      } else if (user?.user?.role === "user") {
+        userInfo = user?.user?.user;
       }
 
-      console.log("🚀 ~ handleLogin ~ newUserInfo.userInfo:", userInfo);
       let newUserInfo = {
-        userData: userData?.data?.data,
-        userDetails: userInfo?.data?.data,
+        userData: user,
+        userDetails: userInfo,
       };
       dispatch(setUser(newUserInfo));
       router.push("/dashboard");
