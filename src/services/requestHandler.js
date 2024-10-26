@@ -8,7 +8,6 @@ const requestHandler = async (method, route, payload) => {
     data: payload,
   });
   const decodedData = jwtDecode(res?.data?.data);
-  console.log("🚀 ~ requestHandler ~ decodedData:", decodedData);
 
   return decodedData;
 };
