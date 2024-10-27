@@ -10,6 +10,7 @@ import {
   Col,
   Row,
   Card,
+  Alert,
 } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -24,6 +25,7 @@ import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { DownOutlined } from "@ant-design/icons";
 import { CopyItem } from "@/components/common/copyId/copyid";
 import { CreateUserPackageModal } from "./createUserPackageModal";
+import requestHandler from "@/services/requestHandler";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 // const operations = (
 //   <Button>
@@ -55,27 +57,27 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
   });
   const [searchTerm, setSearchTerm] = useState("");
 
-  const fetchData = () => {
+  useEffect(() => {
     setLoading(true);
     let filters = { status: "active" };
-    axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user-packages`, {
-        headers: {
-          Authorization: auth?.userData?.token,
-        },
-        params: {
-          searchTerm: searchTerm,
-          ...filters,
-          sort: tableParams?.sortField,
-          page: tableParams.pagination?.current,
-          limit: tableParams.pagination?.pageSize,
-          // fields,
-        },
-      })
+    requestHandler(
+      "GET",
+      "user-packages",
+      null,
+      {
+        Authorization: auth?.userData?.token,
+      },
+      {
+        searchTerm: searchTerm,
+        ...filters,
+        sort: tableParams?.sortField,
+        page: tableParams.pagination?.current,
+        limit: tableParams.pagination?.pageSize,
+        // fields,
+      }
+    )
       .then((res) => {
-        console.log("res: ", res);
-        console.log("res?.data?.data: ", res?.data?.data);
-        setData(res?.data?.data);
+        setData(res?.data);
         setLoading(false);
         setTableParams({
           ...tableParams,
@@ -84,10 +86,27 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
             total: res?.data?.data?.total,
           },
         });
+      })
+      .catch((error) => {
+        return (
+          <Alert
+            message="Not an Admin?"
+            description="Visit our packages and become an Admin"
+            type="info"
+            action={
+              <Space direction="vertical">
+                <Button
+                  size="small"
+                  type="primary"
+                  onClick={() => router.push("dashboard/packages")}
+                >
+                  Packages
+                </Button>
+              </Space>
+            }
+          />
+        );
       });
-  };
-  useEffect(() => {
-    fetchData();
   }, [
     searchTerm,
     tableParams.pagination?.current,
