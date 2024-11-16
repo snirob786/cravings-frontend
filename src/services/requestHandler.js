@@ -9,6 +9,7 @@ const requestHandler = async (method, route, payload, headers, params) => {
     headers,
     params,
   });
+  console.log("🚀 ~ requestHandler ~ res:", res);
   const decodedData =
     typeof res?.data?.data === "string"
       ? jwtDecode(res?.data?.data)

@@ -55,11 +55,16 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
     sortOrder: "ascend",
     sortField: "createdAt",
   });
+  const [currentRole, setCurrentRole] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    setCurrentRole(auth?.userData?.user?.role);
+  }, [auth]);
+
+  useEffect(() => {
     setLoading(true);
-    let filters = { status: "active" };
+    let filters = currentRole === "superAdmin" ? null : { status: "active" };
     requestHandler(
       "GET",
       "user-packages",
@@ -77,6 +82,7 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
       }
     )
       .then((res) => {
+        console.log("🚀 ~ PackagesChild then ~ res:", res);
         setData(res?.data);
         setLoading(false);
         setTableParams({
@@ -202,14 +208,51 @@ const PackagesChild = ({ selectedRowKeys, setSelectedRowKeys }) => {
                     </li>
                   </ul>
                   <div className="mt-5">
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      onClick={() => handleChangeUserPackage(item?._id)}
-                      disabled={item?._id === userPacakgeData?._id}
-                    >
-                      Buy Now
-                    </Button>
+                    {currentRole === "superAdmin" ? (
+                      <>
+                        <div>
+                          {item?.status === "active" ? (
+                            <>
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                onClick={() =>
+                                  handleChangeUserPackage(item?._id)
+                                }
+                                disabled={item?._id === userPacakgeData?._id}
+                              >
+                                Inactive
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                type="primary"
+                                color="red"
+                                htmlType="submit"
+                                onClick={() =>
+                                  handleChangeUserPackage(item?._id)
+                                }
+                                disabled={item?._id === userPacakgeData?._id}
+                              >
+                                Active
+                              </Button>
+                            </>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          onClick={() => handleChangeUserPackage(item?._id)}
+                          disabled={item?._id === userPacakgeData?._id}
+                        >
+                          Buy Now
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </Card>
