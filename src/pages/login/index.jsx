@@ -22,11 +22,12 @@ const Login = () => {
     setIsLoading(true);
     // TODO: Implement login logic
     try {
-      const user = await requestHandler("POST", "auth/login", {
+      let user = await requestHandler("POST", "auth/login", {
         username,
         password,
       });
-
+      console.log("🚀 ~ handleLogin ~ user:", user);
+      user = user?.data;
       let userInfo = null;
       if (user?.user?.role === "superAdmin") {
         userInfo = user?.user?.superAdmin;
