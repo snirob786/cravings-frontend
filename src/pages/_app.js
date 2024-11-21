@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import { ConfigProvider } from "antd";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { Themeing } from "./theme";
+import { Themeing } from "../theme";
 
 const App = ({ Component, pageProps }) => {
   return (
