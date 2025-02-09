@@ -9,6 +9,7 @@ import moment from "moment";
 import { AdminList } from "../../AdminList";
 import { ModeratorList } from "../ModeratorList";
 import { DeliveryManList } from "../DeliveryManList";
+import Title from "antd/es/typography/Title";
 const operations = (
   <Button>
     <FontAwesomeIcon icon={faEllipsisVertical} />
@@ -67,5 +68,12 @@ export const UserListChild = () => {
   useEffect(() => {
     console.log("selectedRowKeys: ", selectedRowKeys);
   }, [selectedRowKeys]);
-  return <Tabs tabBarExtraContent={operations} items={items} />;
+  return (
+    <>
+      <div className="mt-6 mb-3">
+        <Title level={2}>User List</Title>
+      </div>
+      <Tabs tabBarExtraContent={operations} items={items} />
+    </>
+  );
 };

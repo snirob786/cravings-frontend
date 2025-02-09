@@ -10,7 +10,11 @@ const superAdminDashboard = [
   },
   {
     label: "User List",
-    key: "/dashboard/user-list",
+    key: "/dashboard/users",
+  },
+  {
+    label: "Restaurants",
+    key: "/dashboard/restaurants",
   },
   {
     label: "Packages",
@@ -24,15 +28,15 @@ const adminDashboard = [
   },
   {
     label: "User List",
-    key: "/dashboard/user-list",
+    key: "/dashboard/users",
+  },
+  {
+    label: "Restaurants",
+    key: "/dashboard/restaurants",
   },
   {
     label: "Packages",
     key: "/dashboard/packages",
-  },
-  {
-    label: "Restaurant",
-    key: "/dashboard/restaurant",
   },
 ];
 
@@ -43,7 +47,7 @@ const userDashboard = [
   },
   {
     label: "Orders List",
-    key: "/dashboard/order-list",
+    key: "/dashboard/orders",
   },
   {
     label: "Packages",
@@ -93,7 +97,6 @@ export const Sidebar = () => {
               size="small"
               gap={4}
             >
-              {console.log("auth: ", auth)}
               {auth?.userDetails?.name?.firstName?.slice(0, 1)}
             </Avatar>
             <div>

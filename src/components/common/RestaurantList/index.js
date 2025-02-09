@@ -10,6 +10,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { CopyItem } from "@/components/common/copyId/copyid";
 import { DownOutlined } from "@ant-design/icons";
+import Title from "antd/es/typography/Title";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 // const operations = (
 //   <Button>
@@ -22,10 +23,10 @@ const getRandomuserParams = (params) => ({
   page: params.pagination?.current,
   ...params,
 });
-
-export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
+export const RestaurantList = () => {
   const user = useSelector((state) => state?.auth);
   const [data, setData] = useState();
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -45,16 +46,11 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
     },
   ];
 
-  useEffect(() => {
-    console.log("tableParams: ", tableParams);
-  }, [tableParams]);
-
   const fetchData = () => {
     setLoading(true);
-    console.log("tableParams.filters: ", tableParams.filters);
 
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admins`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/restaurants`, {
         headers: {
           Authorization: user?.userData?.token,
         },
@@ -68,9 +64,7 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
         },
       })
       .then((res) => {
-        console.log("res: ", res);
-        console.log("res?.data?.data: ", res?.data?.data);
-        setData(res?.data?.data?.result);
+        setData(res?.data?.data?.data);
         setLoading(false);
         setTableParams({
           ...tableParams,
@@ -108,7 +102,6 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   };
 
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -119,7 +112,7 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
+      dataIndex: "_id",
       width: "15%",
       render: (id) => (
         <>
@@ -129,36 +122,20 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
     },
     {
       title: "Name",
-      dataIndex: "fullName",
+      dataIndex: "title",
       sorter: true,
       // render: (name) => `${name.first} ${name.last}`,
       // value: "fullName",
       width: "15%",
     },
     {
-      title: "Gender",
-      dataIndex: "gender",
-      render: (gender) => <p className="capitalize">{gender}</p>,
-      filters: [
-        {
-          text: "Male",
-          value: "male",
-        },
-        {
-          text: "Female",
-          value: "female",
-        },
-      ],
-      width: "5%",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      render: (email) => <CopyItem item={email} />,
-    },
-    {
-      title: "Mobile",
-      dataIndex: "contactNo",
+      title: "Created By",
+      dataIndex: "createdBy",
+      key: "createdBy",
+      sorter: true,
+      render: (createdBy) => `${createdBy.superAdmin.fullName}`,
+      // value: "fullName",
+      width: "20%",
     },
     {
       title: "Status",
@@ -191,10 +168,12 @@ export const AdminList = ({ selectedRowKeys, setSelectedRowKeys }) => {
       render: (date) => <p>{moment(date).format("Do MMM, YYYY hh:mm A")}</p>,
     },
   ];
-
   return (
     <>
-      <div className="flex items-center justify-between mb-3">
+      <div className="my-6">
+        <Title level={2}>Restaurants</Title>
+      </div>
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-5">
           <p>Change Status</p>
           <Button
