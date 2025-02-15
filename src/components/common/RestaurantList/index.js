@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/common/dashboardLayout/dashboardLayout";
 import { Button, Input, Table, Tabs, Tooltip, Dropdown, Space } from "antd";
 import { useSelector } from "react-redux";
@@ -11,6 +11,8 @@ import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { CopyItem } from "@/components/common/copyId/copyid";
 import { DownOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
+import { ActionDropdown } from "./actionDropdown";
+import { CreateRestaurantModal } from "./createRestaurantModal";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 // const operations = (
 //   <Button>
@@ -28,6 +30,7 @@ export const RestaurantList = () => {
   const [data, setData] = useState();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -46,6 +49,13 @@ export const RestaurantList = () => {
     },
   ];
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const fetchData = () => {
     setLoading(true);
 
@@ -101,12 +111,21 @@ export const RestaurantList = () => {
     }
   };
 
-  const onSelectChange = (newSelectedRowKeys) => {
+  const onSelectChange = useCallback((newSelectedRowKeys) => {
+    console.log(
+      "🚀 ~ onSelectChange ~ newSelectedRowKeys:",
+      newSelectedRowKeys
+    );
     setSelectedRowKeys(newSelectedRowKeys);
-  };
+  }, []);
+
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
+    type: "checkbox",
+    getCheckboxProps: (record) => ({
+      disabled: record.disabled, // Disable selection for certain rows
+    }),
   };
 
   const columns = [
@@ -203,18 +222,24 @@ export const RestaurantList = () => {
             </p>
           )}
         </div>
-        <div className="w-1/4">
-          <Tooltip title="Search admin ID, admin Name, Contact number, Email, admin first name, admin last name, admin middle name">
+        <div className="w-1/4 flex items-center gap-2">
+          <div className="flex items-center justify-end py-3">
+            <Button type="primary" onClick={showModal}>
+              Create
+            </Button>
+          </div>
+          <Tooltip title="Search by restaurant ID, restaurant Name">
             <Input
               placeholder="Search"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </Tooltip>
+          <ActionDropdown />
         </div>
       </div>
       <Table
         columns={columns}
-        rowKey={(record) => record.id}
+        rowKey={(record) => record._id}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}
@@ -223,6 +248,12 @@ export const RestaurantList = () => {
         scroll={{
           x: 900,
         }}
+      />
+      <CreateRestaurantModal
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+        data={data}
+        setData={setData}
       />
     </>
   );

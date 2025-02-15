@@ -11,7 +11,7 @@ import { AdminList } from "@/components/AdminList";
 import { DashboardLayout } from "@/components/common/dashboardLayout/dashboardLayout";
 import { OrderListChild } from "@/components/common/OrderListChild";
 import PackagesChild from "@/components/UserPakcageChild";
-import { UserListChild } from "@/components/common/UserList";
+import { ProfileChild } from "@/components/common/UserList";
 import { RestaurantList } from "@/components/common/RestaurantList";
 
 const Restaurant = () => {

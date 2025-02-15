@@ -1,5 +1,5 @@
-import { UserListChild } from "@/components/common/UserList";
 import { DashboardLayout } from "@/components/common/dashboardLayout/dashboardLayout";
+import { UserListChild } from "@/components/common/UserList";
 import { Button, Result } from "antd";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";

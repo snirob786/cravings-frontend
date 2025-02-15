@@ -91,9 +91,17 @@ export const Sidebar = () => {
         className="drop-shadow-2xl"
       >
         <div className="h-full">
-          <div className="bg-white px-2 py-4 flex items-center gap-2">
+          <div
+            className="bg-white px-2 py-4 flex items-center gap-2 cursor-pointer"
+            onClick={() =>
+              router.push(`/dashboard/profile/${auth?.userDetails?.id}`)
+            }
+          >
             <Avatar
-              style={{ backgroundColor: "#f56a00", verticalAlign: "middle" }}
+              style={{
+                backgroundColor: "#f56a00",
+                verticalAlign: "middle",
+              }}
               size="small"
               gap={4}
             >

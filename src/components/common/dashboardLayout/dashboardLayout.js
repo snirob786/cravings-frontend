@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import MainHeader from "../../mainHeader";
 import { Alert, Button, Flex, Layout, Menu, Space } from "antd";
 import DashboardFooter from "../dashboardFooter";
-import { Sidebar } from "../sibebar/sidebar";
+import { Sidebar } from "../Sibebar/sidebar";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
