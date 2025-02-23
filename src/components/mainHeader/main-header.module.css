@@ -1,19 +1,18 @@
 .headerBgLight {
-    background-color: white;
-    border-bottom: 1px solid #0505050f;
+  background-color: white;
+  border-bottom: 1px solid #0505050f;
 }
 
 .menuContainer {
-    border: none;
-    background-color: unset;
-    justify-content: flex-end;
+  border: none;
+  background-color: unset;
+  justify-content: flex-end;
 }
 
 .headerTitle {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
-/* Reconfigure Theme Design */
-.customAnchor>*::before {
-    display: none;
+.customAnchor > *::before {
+  display: none;
 }
