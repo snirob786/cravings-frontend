@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.userModalContainer {
+  position: absolute;
+  margin: 0px;
+  inset: 35px auto auto 0px;
+  transform: translate3d(-90px, 0px, 0px);
+}
