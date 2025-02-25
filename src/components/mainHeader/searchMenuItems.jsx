@@ -1,6 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Search, ShoppingBag, User, X } from "lucide-react";
+import {
+  Heart,
+  LogOut,
+  Search,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+  UserCircle,
+  X,
+} from "lucide-react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const SearchMenuItems = ({
   openSmallSearchModal,
@@ -10,6 +21,7 @@ const SearchMenuItems = ({
 }) => {
   const userModalRef = useRef(null);
   const userModalButtonRef = useRef(null);
+  const router = useRouter();
   const [handleUserModal, setHandleUserModal] = useState(false);
   useEffect(() => {
     function handleClickOutside(event) {
@@ -107,39 +119,38 @@ const SearchMenuItems = ({
             >
               <ul className="flex flex-col gap-1">
                 <li>
-                  <a
+                  <Link
                     className="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded"
-                    href="admin-dashboard.html"
-                    target="_blank"
+                    href="/dashboard"
                   >
-                    <i className="h-4 w-4" data-lucide="user-circle" />
-                    Admin
-                  </a>
+                    <UserCircle className="h-4 w-4" />
+                    Dashboard
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded"
                     href="cart.html"
                   >
-                    <i className="h-4 w-4" data-lucide="shopping-cart" />
+                    <ShoppingCart className="h-4 w-4" />
                     Cart
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded"
                     href="wishlist.html"
                   >
-                    <i className="h-4 w-4" data-lucide="heart" /> Wishlist
-                  </a>
+                    <Heart className="h-4 w-4" /> Wishlist
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded"
                     href="auth-login.html"
                   >
-                    <i className="h-4 w-4" data-lucide="log-out" /> Log Out
-                  </a>
+                    <LogOut className="h-4 w-4" /> Log Out
+                  </Link>
                 </li>
               </ul>
             </div>
