@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import logo from "@/assets/images/logo.jpg";
 
-import { User, ShoppingBag, Search } from "lucide-react";
+import { User, ShoppingBag, Search, Menu } from "lucide-react";
 import Image from "next/image";
 import MenuItems from "./menuItems";
 import SearchMenuItems from "./searchMenuItems";
@@ -48,10 +48,7 @@ const HeaderNaivgation = ({
                   className="lg:hidden block"
                   data-hs-overlay="#mobile-menu"
                 >
-                  <i
-                    data-lucide="menu"
-                    className="w-7 h-7 text-default-600 me-4 hover:text-primary"
-                  />
+                  <Menu className="w-7 h-7 text-default-600 me-4 hover:text-primary" />
                 </button>
                 {/* Navbar Brand Logo */}
                 <a href="home.html">
@@ -60,14 +57,14 @@ const HeaderNaivgation = ({
                     alt="logo"
                     width={500}
                     height={500}
-                    className="w-[60px] flex dark:hidden"
+                    className="w-[40px] flex dark:hidden"
                   />
                   <Image
                     src={logo}
                     alt="logo"
                     width={500}
                     height={500}
-                    className="w-[60px] hidden dark:flex"
+                    className="w-[40px] hidden dark:flex"
                   />
                 </a>
               </div>

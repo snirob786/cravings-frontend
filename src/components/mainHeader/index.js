@@ -1,26 +1,13 @@
-import logo from "@/assets/images/logo.jpg";
 import { logout } from "@/redux/features/authSlice";
-import {
-  Anchor,
-  Avatar,
-  Button,
-  Col,
-  Flex,
-  Layout,
-  Menu,
-  Row,
-  Typography,
-} from "antd";
-import Image from "next/image";
+import { Anchor, Layout, Typography } from "antd";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./main-header.module.css";
-import { useEffect, useRef, useState } from "react";
 import HeaderNaivgation from "./headerNaivgation";
-import MobileNaivgationBottom from "./mobileNaivgationBottom";
-import TopSearchBar from "./topSearchBar";
 import MobileMenuSidebarMenu from "./mobileMenuSidebarMenu";
+import MobileNaivgationBottom from "./mobileNaivgationBottom";
 import OfferHelpMenu from "./offerHelpMenu";
+import TopSearchBar from "./topSearchBar";
 const { Header } = Layout;
 const { Title } = Typography;
 const { Link } = Anchor;

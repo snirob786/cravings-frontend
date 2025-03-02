@@ -1,12 +1,8 @@
-import React from "react";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import MainHeader from "@/components/mainHeader";
 import PublicLayout from "@/components/layouts/publicLayout";
+import MainHeader from "@/components/mainHeader";
+import BackToTop from "@/components/footers/backToTop";
+import FooterSection from "@/components/footers/footer";
+import { Layout } from "antd";
 import { useSelector } from "react-redux";
 const { Sider } = Layout;
 
@@ -17,6 +13,9 @@ export default function index() {
       <Layout>
         <PublicLayout>
           <MainHeader />
+
+          <FooterSection />
+          <BackToTop />
         </PublicLayout>
       </Layout>
     </>
